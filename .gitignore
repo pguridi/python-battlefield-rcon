@@ -135,3 +135,5 @@ build_dependencies
 
 import_data/
 test-reports/
+
+.idea
