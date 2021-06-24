@@ -13,18 +13,19 @@ from battlefield_rcon.exceptions import RCONLoginRequiredException, RCONAuthExce
 
 
 class RCONConnection(object):
-    def __init__(self, remote_addr, port, password=None):
+    def __init__(self, remote_addr, port, password=None, recv_buffer=1024):
         self._remote_addr = remote_addr
         self._port = port
         self._password = password
         self._conn = None
         self._authenticated = False
         self._seq = 0
+        self.recv_buffer=int(recv_buffer)
 
     def _read_response(self):
         data_buffer = bytes()
         while not contains_complete_packet(data_buffer):
-            data_buffer += self._conn.recv(1024)
+            data_buffer += self._conn.recv(self.recv_buffer)
 
         return decode_packet(data_buffer)
 
